@@ -128,6 +128,7 @@ span.slot{display:inline-block;padding:0 5px;margin:0 1px;color:var(--red);borde
 .chip.trig{border-color:rgba(179,18,27,.35);color:var(--red);background:var(--red-soft)}
 .chip.year{border-color:rgba(168,133,60,.4);color:var(--gold);background:var(--gold-soft)}
 .chip.prin{border-color:rgba(47,107,79,.3);color:var(--green);background:var(--green-soft)}
+.chip.len{border-color:var(--line);color:var(--faint);background:transparent;font-size:10px;letter-spacing:.02em}
 .done-btn{font-size:11.5px;padding:5px 10px;border:1px solid var(--line-mid);color:var(--muted);border-radius:2px;white-space:nowrap;transition:.15s}
 .done-btn:hover{border-color:var(--green);color:var(--green)}
 .done-btn.on{background:var(--green);border-color:var(--green);color:#fff}
@@ -936,11 +937,16 @@ function bodyHTML(card){
   return html;
 }
 
+function charCount(card){
+  return card.paras.join("").replace(/<[^>]+>/g, "").replace(/\s/g, "").length;
+}
+
 function chipHTML(card){
   const a = card.trig.map(t => `<span class="chip trig">▸ ${t}</span>`).join("");
   const b = card.years.map(y => `<span class="chip year">${y}</span>`).join("");
   const c = card.prins.map(p => `<span class="chip prin">${p}</span>`).join("");
-  return a + b + c;
+  const d = `<span class="chip len">${charCount(card)} 字</span>`;
+  return a + b + c + d;
 }
 
 function renderCards(){
