@@ -147,14 +147,6 @@ span.slot{display:inline-block;padding:0 5px;margin:0 1px;color:var(--red);borde
 .card.flash{animation:flash 1.4s ease}
 @keyframes flash{0%,100%{box-shadow:0 0 0 0 rgba(179,18,27,0)}30%{box-shadow:0 0 0 4px rgba(179,18,27,.18)}}
 
-/* ---------- guide ---------- */
-.guide{margin:36px 0 0;border:1px solid var(--line);background:var(--surface-2);padding:20px 22px;box-shadow:var(--shadow)}
-.guide h2{margin:0 0 4px;font-family:var(--serif);font-size:17px}
-.guide ol{margin:12px 0 0;padding-left:0;list-style:none;counter-reset:g;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.guide li{counter-increment:g;font-size:13px;line-height:1.85;color:var(--muted);padding-left:26px;position:relative}
-.guide li::before{content:counter(g,decimal-leading-zero);position:absolute;left:0;top:1px;font-family:var(--mono);font-size:11px;color:var(--red);letter-spacing:.05em}
-.guide li b{color:var(--ink)}
-
 /* ---------- table ---------- */
 .tbl-wrap{margin:22px 0 0;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow);overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:720px}
@@ -226,7 +218,6 @@ tr.linkable:hover td.name{background:var(--red-soft)}
 @media (max-width:900px){
   .hero-in{grid-template-columns:1fr;padding:26px 18px 22px}
   .hero-art{display:none}
-  .guide ol{grid-template-columns:1fr;gap:12px}
   .wrap,.toolbar-in{padding-left:16px;padding-right:16px}
   .filters{padding-left:16px;padding-right:16px}
 }
@@ -274,11 +265,6 @@ tr.linkable:hover td.name{background:var(--red-soft)}
   .stat{padding:9px 11px}
   .stat .n{font-size:19px}
   .stat .l{font-size:9px;letter-spacing:.08em}
-
-  /* 说明块 */
-  .guide{margin-top:22px;padding:14px 15px}
-  .guide h2{font-size:15px}
-  .guide li{font-size:12.5px;line-height:1.75;padding-left:24px}
 
   /* 章节 */
   .sec{margin-top:26px}
@@ -416,14 +402,6 @@ tr.linkable:hover td.name{background:var(--red-soft)}
   </div>
 
   <div class="wrap">
-    <div class="guide">
-      <h2>怎么用</h2>
-      <ol>
-        <li><b>先选资料源</b>：上方按「张修齐 / 曲艺」筛选。两家思路不同——张修齐偏原理链，曲艺偏专题套话，谁顺手背谁。</li>
-        <li><b>再认触发词</b>：题干出现「矛盾分析法」「主要矛盾」「科技」「创新」「民生」「青年」等词，直接对号入座。</li>
-        <li><b>最后换主体</b>：XXX 和<span class="slot">填材料要点</span>换成材料里的人、事、技术或现象，其余句子几乎不用改。</li>
-      </ol>
-    </div>
     <div id="cardsRoot"></div>
   </div>
 </section>
