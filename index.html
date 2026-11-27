@@ -150,6 +150,9 @@ span.slot{display:inline-block;padding:0 5px;margin:0 1px;color:var(--red);borde
 
 /* ---------- table ---------- */
 .ks-subj{border-left:3px solid var(--red);padding-left:11px;margin:26px 0 0;font-family:var(--serif);font-size:19px;font-weight:700}
+.ks-filterbar{position:sticky;top:64px;z-index:40;margin:14px 0 0;padding:8px 0;background:rgba(242,239,231,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.ks-filterbar .filters{padding:0;gap:6px}
+.ks-filterbar .filters button{padding:5px 11px}
 .ks-subj small{display:block;font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:.1em;font-weight:400;margin-top:2px}
 .ks-group{margin:20px 0 0}
 .ks-group-h{display:flex;align-items:baseline;gap:9px;padding-bottom:7px;border-bottom:1px solid var(--line-mid);font-family:var(--serif);font-size:15.5px;font-weight:700}
@@ -306,6 +309,7 @@ tr.linkable:hover td.name{background:var(--red-soft)}
   table{font-size:12px;min-width:620px}
 
   /* 选择题考点 */
+  .ks-filterbar{top:0;margin-top:10px}
   .ks-subj{font-size:17px;margin-top:22px}
   .ks-group{margin-top:16px}
   .ks-group-h{font-size:14.5px}
@@ -463,8 +467,11 @@ tr.linkable:hover td.name{background:var(--red-soft)}
     </div>
     <p class="tbl-note" style="margin-top:12px">
       曲艺押题讲义的选择题预测部分。标红的词是选项里的「关键词」——选择题就是认这些词。
-      已录入<b>马原</b>（详细）、<b>毛中特</b>、<b>新思想</b>、<b>史纲</b>；待补：毛中特后三节、史纲余页、思修、时政。
+      已录入 马原 / 毛中特 / 新思想 / 史纲 / 思修，共 94 条；待补：毛中特后三节、思修余下、时政。
     </p>
+    <div class="ks-filterbar">
+      <div class="filters" id="ksFilters"></div>
+    </div>
     <div id="ksRoot"></div>
   </div>
 </section>
@@ -1270,6 +1277,52 @@ const KS = [
       ]}
     ]
   }
+,
+  {
+    key:"sg2", subject:"史纲", sub:"",
+    groups:[
+      { t:"（三）新旧三民主义比较", items:[
+        { h:"民族主义", p:["旧：驱除鞑虏，恢复中华。新：<em class=\"k\">突出反帝</em>的内容，对外实行中华民族的独立，对内主张各民族一律平等。"]},
+        { h:"民权主义", p:["旧：创立民国。新：民主权利应为“为一般平民所共有”，不应为“少数人所得而私”。"]},
+        { h:"民生主义", p:["旧：平均地权。新：“平均地权”和“<em class=\"k\">节制资本</em>”（后又提出“耕者有其田”），并提出要改善工农的生活状况。"]}
+      ]},
+      { t:"（四）党在不同时期的土地政策", items:[
+        { h:"井冈山土地法（1928）", p:["中国共产党历史上<em class=\"k\">第一个土地法</em>，以立法形式首次肯定了广大农民以革命的手段获得土地的权利。因缺乏经验，关于“没收一切土地归苏维埃政府所有、禁止土地买卖”等规定并不适合中国农村实际。"]},
+        { h:"兴国土地法（1929）", p:["将“没收一切土地”改为“<em class=\"k\">没收一切公共土地及地主阶级的土地</em>”，是原则性改正，保护了中农利益。","阶级路线：坚定地依靠贫农、雇农，联合中农，<em class=\"k\">限制富农</em>，保护中小工商业者，消灭地主阶级。","分配方法：以乡为单位，按人口平分土地，在原耕地基础上实行抽多补少、抽肥补瘦。<em class=\"k\">在中国历史上第一个制定了可以付诸实施的比较完整的土地革命纲领和路线</em>。"]},
+        { h:"减租减息", p:["是党在<em class=\"k\">抗日战争时期</em>抗日根据地为适当调节各抗日阶层的利益实行的土地政策。"]},
+        { h:"《中国土地法大纲》（1947）", p:["明确规定“<em class=\"k\">废除封建性及半封建性剥削</em>的土地制度，实现耕者有其田的土地制度”。“乡村中一切地主的土地及公地，由乡村农会接收”，分配给无地或少地的农民。"]},
+        { h:"新中国成立后的土改", p:["《中华人民共和国土地改革法》规定这次土改的目的是<em class=\"k\">废除地主阶级封建剥削的土地所有制</em>，实行农民的土地所有制。","对待富农的政策：由解放战争时期征收富农多余土地财产，改变为<em class=\"k\">保存富农经济</em>。是我国历史上规模最大、历次土改中做得最好的一次。"]}
+      ]},
+      { t:"（五）抗日民族统一战线", items:[
+        { h:"统一战线的原则", p:["以<em class=\"k\">国共合作</em>为基础。中国共产党必须坚持<em class=\"k\">独立自主</em>原则，既统一又独立，保持在思想上、政治上和组织上的独立性。","实质是力争中国共产党对抗日战争的<em class=\"k\">领导权</em>，这是把抗日战争引向胜利的中心一环。"]},
+        { h:"策略总方针", p:["<em class=\"k\">发展进步势力，争取中间势力，孤立顽固势力</em>。进步势力指工人、农民和城市小资产阶级，是统一战线的基础、抗日战争的主要依靠力量；中间势力指民族资产阶级、开明绅士和地方实力派，争取需要一定条件；顽固势力指大地主大资产阶级的抗日派，即蒋介石集团为代表的国民党亲英美派，对其既联合又斗争，坚持<em class=\"k\">有理、有利、有节</em>。"]},
+        { h:"三三制政权建设", p:["加强政权建设是抗日根据地建设的<em class=\"k\">首要的、根本的任务</em>。政权在工作人员分配上实行“三三制”：共产党员、党外进步人士、不左不右的中间派各占三分之一。共产党员代表工人和农民，党外进步人士代表小资产阶级，中间派代表民族资产阶级和开明绅士。"]},
+        { h:"抗战胜利的原因", p:["①以爱国主义为核心的民族精神是<em class=\"k\">决定因素</em>；②中国共产党的中流砥柱作用是<em class=\"k\">关键</em>；③全民族抗战是<em class=\"k\">重要法宝</em>；④同世界所有爱好和平正义的国家和人民、国际组织及各种反法西斯力量的同情和支持分不开。"]}
+      ]}
+    ]
+  },
+  {
+    key:"sx", subject:"思修", sub:"思想道德与法治",
+    groups:[
+      { t:"（一）理想信念的内涵与特征", items:[
+        { h:"理想与信念", p:[
+          "<em class=\"k\">理想</em>：人们在实践中形成的、有实现可能性的、对未来社会和自身发展目标的向往与追求，是人们的世界观、人生观和价值观在奋斗目标上的集中体现。特征：超越性、实践性、时代性。",
+          "<em class=\"k\">信念</em>：认知、情感和意志的有机统一体。在信念体系中，高层次信念决定低层次信念，低层次信念服从于高层次信念；<em class=\"k\">信仰是最高层次的信念</em>，具有最大的统摄力，有盲目和科学之分。特征：执着性、多样性、支撑性。",
+          "作用：理想信念是人的精神世界的<em class=\"k\">核心</em>，是精神之<em class=\"k\">“钙”</em>。理想指引方向，信念决定成败。"
+        ]}
+      ]},
+      { t:"（二）三组重要关系", items:[
+        { h:"自我价值和社会价值", p:["人生价值内在包含自我价值和社会价值两个方面。<em class=\"k\">自我价值</em>是个体生存和发展的必要条件，其实现是个体为社会创造更大价值的前提；<em class=\"k\">社会价值</em>是社会存在和发展的重要条件，其实现是个体自我完善、全面发展的保障。"]},
+        { h:"个人利益和社会利益", p:["个人与社会的关系问题是认识和处理人生问题的<em class=\"k\">重要着眼点和出发点</em>。二者关系最根本的是个人利益与社会利益的关系，在社会主义社会中<em class=\"k\">根本上是一致的</em>。社会利益不是个人利益的简单相加，而是所有人利益的有机统一。"]},
+        { h:"个人理想和社会理想", p:["二者关系实质上是个人与社会的关系在理想层面的反映。<em class=\"k\">个人理想以社会理想为指引</em>，个人理想的实现必须以社会理想的实现为前提和基础；社会理想是对个人理想的汇聚和升华。"]}
+      ]},
+      { t:"（三）集体主义和中国革命道德", items:[
+        { h:"集体主义的三个层次", p:["一是<em class=\"k\">无私奉献、一心为公</em>——最高层次，共产党员、先进分子应努力达到；二是<em class=\"k\">先公后私、先人后己</em>——具有较高社会主义道德觉悟的人能达到；三是<em class=\"k\">顾全大局、遵纪守法、热爱祖国、诚实劳动</em>——对公民最基本的道德要求。"]},
+        { h:"中国革命道德", p:["指中国共产党人、人民军队、一切先进分子和人民群众在中国革命、建设、改革中所形成的优秀道德。",
+          "内容：①为实现社会主义和共产主义理想而奋斗；②<em class=\"k\">全心全意为人民服务</em>——贯穿中国革命道德始终的一根红线；③始终把革命利益放在首位；④树立社会新风，建立新型人际关系；⑤修身自律，保持节操。"]}
+      ]}
+    ]
+  }
 ];
 
 /* ================= 状态 ================= */
@@ -1302,13 +1355,38 @@ function save(){
 }
 
 /* ================= 渲染：选择题考点 ================= */
+let ksFilter = "全部";
+
+function ksSubjects(){
+  const subs = [];
+  KS.forEach(b => {
+    const n = b.groups.reduce((a, g) => a + g.items.length, 0);
+    const hit = subs.find(s => s.name === b.subject);
+    if (hit) hit.count += n; else subs.push({ name: b.subject, count: n });
+  });
+  return subs;
+}
+
+function renderKSFilter(){
+  const bar = document.getElementById("ksFilters");
+  if (!bar) return;
+  const subs = ksSubjects();
+  const total = subs.reduce((a, s) => a + s.count, 0);
+  let html = `<button data-k="全部" class="${ksFilter === "全部" ? "on" : ""}">全部 <i>${total}</i></button>`;
+  subs.forEach(s => {
+    html += `<button data-k="${s.name}" class="${ksFilter === s.name ? "on" : ""}">${s.name} <i>${s.count}</i></button>`;
+  });
+  bar.innerHTML = html;
+}
+
 function renderKS(){
   const root = document.getElementById("ksRoot");
   if (!root) return;
+  renderKSFilter();
   let out = "", lastSub = "";
   KS.forEach(block => {
     if (block.subject !== lastSub){
-      out += `<div class="ks-subj">${block.subject}<small>${block.sub}</small></div>`;
+      out += `<div class="ks-subj" id="ks-${block.subject}">${block.subject}<small>${block.sub || ""}</small></div>`;
       lastSub = block.subject;
     }
     block.groups.forEach(g => {
@@ -1320,6 +1398,34 @@ function renderKS(){
     });
   });
   root.innerHTML = out;
+}
+
+function setKsFilter(name){
+  ksFilter = name;
+  renderKSFilter();
+  if (name === "全部"){
+    renderKS();
+    window.scrollTo(0, 0);
+    return;
+  }
+  // 只渲染该科目
+  const root = document.getElementById("ksRoot");
+  let out = "", lastSub = "";
+  KS.filter(b => b.subject === name).forEach(block => {
+    if (block.subject !== lastSub){
+      out += `<div class="ks-subj" id="ks-${block.subject}">${block.subject}<small>${block.sub || ""}</small></div>`;
+      lastSub = block.subject;
+    }
+    block.groups.forEach(g => {
+      out += `<div class="ks-group"><div class="ks-group-h"><span>${g.t}</span><span class="n">${g.items.length} 条</span></div>`;
+      g.items.forEach(it => {
+        out += `<div class="ks-item"><h3>${it.h}</h3>${it.p.map(x => `<p>${x}</p>`).join("")}</div>`;
+      });
+      out += `</div>`;
+    });
+  });
+  root.innerHTML = out;
+  window.scrollTo(0, 0);
 }
 
 /* ================= 渲染：卡片 ================= */
@@ -1550,6 +1656,12 @@ document.getElementById("filters").addEventListener("click", e => {
   const first = SECTIONS.find(s => state.filter === "all" || s.key === state.filter);
   if (first && first.ids[0]) state.open.add(first.ids[0]);
   renderCards();
+});
+
+document.getElementById("ksFilters").addEventListener("click", e => {
+  const b = e.target.closest("button[data-k]");
+  if (!b) return;
+  setKsFilter(b.dataset.k);
 });
 
 document.getElementById("modeSeg").addEventListener("click", e => {
