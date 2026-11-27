@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8" />
@@ -20,12 +20,28 @@
   --sans:"PingFang SC","Microsoft YaHei","Source Han Sans SC","Noto Sans SC",system-ui,sans-serif;
   --mono:"JetBrains Mono","SFMono-Regular",Consolas,"Liberation Mono",monospace;
   --shadow:6px 6px 0 rgba(20,22,26,.06);
+  --shadow-hover:8px 10px 0 rgba(20,22,26,.08);
   --maxw:1180px;
+  --accent:var(--red);
 }
+/* 各科目主色：只用于左侧色条、编号、小面积点缀 */
+[data-acc="mayuan"]{--accent:#b3121b}
+[data-acc="maozhongte"]{--accent:#9a4a1c}
+[data-acc="xinsixiang"]{--accent:#a8853c}
+[data-acc="shigang"]{--accent:#2f6b4f}
+[data-acc="sixiu"]{--accent:#6b4f7a}
+[data-acc="dangdai"]{--accent:#1f5d7a}
+[data-acc="zhang"]{--accent:#8a3b12}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:118px}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.6;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:
+  radial-gradient(900px 520px at 78% -8%, rgba(179,18,27,.045), transparent 62%),
+  radial-gradient(700px 460px at -6% 34%, rgba(47,107,79,.035), transparent 60%),
+  repeating-linear-gradient(0deg, rgba(20,22,26,.014) 0 1px, transparent 1px 26px),
+  var(--paper);
+  color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.6;-webkit-tap-highlight-color:transparent}
 ::selection{background:var(--red);color:#fff}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px}
 button{font-family:inherit;font-size:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none !important}
 a{color:inherit;text-decoration:none}
@@ -34,7 +50,8 @@ em.k.blank{color:transparent;background:var(--red-soft);border-bottom:1px dashed
 em.k.blank.on{color:var(--red);background:none;border-bottom:0;padding:0 1px}
 
 /* ---------- app bar ---------- */
-.appbar{position:sticky;top:0;z-index:60;background:var(--ink);color:#f6f3ea;border-bottom:1px solid rgba(255,255,255,.12)}
+.appbar{position:sticky;top:0;z-index:60;background:var(--ink);color:#f6f3ea;border-bottom:1px solid rgba(255,255,255,.12);transition:box-shadow .2s}
+.appbar.lift{box-shadow:0 4px 20px rgba(20,22,26,.28)}
 .appbar-in{max-width:var(--maxw);margin:0 auto;height:64px;padding:0 22px;display:flex;align-items:center;gap:24px}
 .brand{display:flex;align-items:center;gap:11px;flex:none}
 .seal{width:34px;height:34px;background:var(--red);color:#fff;display:grid;place-items:center;font-family:var(--serif);font-size:19px;font-weight:700;border-radius:2px;flex:none}
@@ -65,7 +82,10 @@ h1 .thin{display:block;font-size:.38em;font-weight:400;letter-spacing:.16em;colo
 .hero-desc{max-width:600px;margin:14px 0 0;font-size:13.5px;line-height:1.85;color:var(--muted)}
 .hero-desc b{color:var(--ink);font-weight:700}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin:22px 0 0;background:var(--line);border:1px solid var(--line);box-shadow:var(--shadow)}
-.stat{background:var(--surface);padding:11px 14px}
+.stat{background:var(--surface);padding:11px 14px;position:relative;transition:background .18s}
+.stat::before{content:"";position:absolute;left:0;top:0;right:0;height:2px;background:var(--red);opacity:0;transition:opacity .18s}
+.stat:hover{background:var(--surface-2)}
+.stat:hover::before{opacity:1}
 .stat .n{font-family:var(--serif);font-size:23px;font-weight:700;line-height:1}
 .stat .n i{font-style:normal;font-size:11px;font-family:var(--mono);color:var(--faint);margin-left:3px}
 .stat .l{margin-top:5px;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--muted)}
@@ -76,7 +96,8 @@ h1 .thin{display:block;font-size:.38em;font-weight:400;letter-spacing:.16em;colo
 .hero-art .cap{position:absolute;bottom:-2px;font-family:var(--mono);font-size:9px;letter-spacing:.3em;color:var(--faint)}
 
 /* ---------- toolbar ---------- */
-.toolbar{position:sticky;top:64px;z-index:50;background:rgba(242,239,231,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.toolbar{position:sticky;top:64px;z-index:50;background:rgba(242,239,231,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);transition:box-shadow .2s}
+.toolbar.lift{box-shadow:0 8px 20px rgba(20,22,26,.07)}
 .toolbar-in{max-width:var(--maxw);margin:0 auto;padding:10px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .seg{display:flex;border:1px solid var(--line-mid);background:var(--surface);border-radius:2px;overflow:hidden}
 .seg button{padding:7px 13px;font-size:12.5px;color:var(--muted);border-right:1px solid var(--line);transition:.15s}
@@ -104,22 +125,24 @@ h1 .thin{display:block;font-size:.38em;font-weight:400;letter-spacing:.16em;colo
 span.slot{display:inline-block;padding:0 5px;margin:0 1px;color:var(--red);border-bottom:1px dashed var(--red);font-size:.9em;background:var(--red-soft)}
 
 /* ---------- sections & cards ---------- */
-.sec{max-width:940px;margin:38px auto 0}
-.sec-head{display:flex;align-items:baseline;gap:12px;padding-bottom:10px;border-bottom:2px solid var(--line-hard);flex-wrap:wrap}
-.sec-idx{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--red);line-height:1}
-.sec-title{font-family:var(--serif);font-size:19px;font-weight:700;letter-spacing:.02em}
+.sec{max-width:940px;margin:44px auto 0}
+.sec-head{display:flex;align-items:center;gap:13px;padding-bottom:11px;border-bottom:1px solid var(--line-hard);flex-wrap:wrap;position:relative}
+.sec-head::after{content:"";position:absolute;left:0;bottom:-1px;width:64px;height:3px;background:var(--accent)}
+.sec-idx{font-family:var(--serif);font-size:34px;font-weight:700;line-height:.9;color:var(--accent);opacity:.9;min-width:30px}
+.sec-title{font-family:var(--serif);font-size:20px;font-weight:700;letter-spacing:.02em}
+.sec-src{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted);border:1px solid var(--line-mid);padding:2px 7px;border-radius:2px;white-space:nowrap;background:var(--surface)}
 .sec-page{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--faint)}
-.cards{margin-top:14px;display:flex;flex-direction:column;gap:12px}
+.cards{margin-top:16px;display:flex;flex-direction:column;gap:12px}
 
-.card{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);position:relative;transition:border-color .2s, box-shadow .2s}
-.card:hover{border-color:var(--line-mid)}
-.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--line)}
-.card.done::before{background:var(--green)}
+.card{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);position:relative;transition:border-color .2s, box-shadow .2s, transform .2s}
+.card:hover{border-color:var(--line-mid);box-shadow:var(--shadow-hover);transform:translateY(-1px)}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);opacity:.55}
+.card.done::before{background:var(--green);opacity:1}
 .card-h{display:flex;gap:12px;align-items:flex-start;padding:16px 18px 0;cursor:pointer;user-select:none}
-.card-h:hover .card-ttl h3{color:var(--red)}
+.card-h:hover .card-ttl h3{color:var(--accent)}
 .card-caret{font-family:var(--mono);font-size:12px;color:var(--faint);transition:transform .18s;padding-top:4px}
 .card:not(.open) .card-caret{transform:rotate(-90deg)}
-.card-no{font-family:var(--serif);font-size:21px;font-weight:700;color:var(--faint);line-height:1.15;min-width:32px}
+.card-no{font-family:var(--serif);font-size:21px;font-weight:700;color:var(--muted);line-height:1.15;min-width:32px}
 .card.done .card-no{color:var(--green)}
 .card-ttl{flex:1;min-width:0}
 .card-ttl h3{margin:0;font-family:var(--serif);font-size:19px;font-weight:700;letter-spacing:.01em;line-height:1.45}
@@ -149,15 +172,18 @@ span.slot{display:inline-block;padding:0 5px;margin:0 1px;color:var(--red);borde
 @keyframes flash{0%,100%{box-shadow:0 0 0 0 rgba(179,18,27,0)}30%{box-shadow:0 0 0 4px rgba(179,18,27,.18)}}
 
 /* ---------- table ---------- */
-.ks-subj{border-left:3px solid var(--red);padding-left:11px;margin:26px 0 0;font-family:var(--serif);font-size:19px;font-weight:700}
-.ks-filterbar{position:sticky;top:64px;z-index:40;margin:14px 0 0;padding:8px 0;background:rgba(242,239,231,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.ks-subj{border-left:3px solid var(--accent);padding:2px 0 2px 12px;margin:30px 0 0;font-family:var(--serif);font-size:21px;font-weight:700;line-height:1.25}
+.ks-subj small{display:block;font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:.1em;font-weight:400;margin-top:3px}
+.ks-filterbar{position:sticky;top:64px;z-index:40;margin:14px 0 0;padding:8px 0;background:rgba(242,239,231,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);transition:box-shadow .2s}
+.ks-filterbar.lift{box-shadow:0 8px 20px rgba(20,22,26,.07)}
 .ks-filterbar .filters{padding:0;gap:6px}
 .ks-filterbar .filters button{padding:5px 11px}
-.ks-subj small{display:block;font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:.1em;font-weight:400;margin-top:2px}
 .ks-group{margin:20px 0 0}
-.ks-group-h{display:flex;align-items:baseline;gap:9px;padding-bottom:7px;border-bottom:1px solid var(--line-mid);font-family:var(--serif);font-size:15.5px;font-weight:700}
-.ks-group-h .n{font-family:var(--mono);font-size:9.5px;color:var(--faint);font-weight:400}
-.ks-item{background:var(--surface);border:1px solid var(--line);margin-top:9px;padding:13px 16px;box-shadow:var(--shadow)}
+.ks-group-h{display:flex;align-items:baseline;gap:9px;padding-bottom:7px;border-bottom:1px solid var(--line-mid);font-family:var(--serif);font-size:16px;font-weight:700;position:relative}
+.ks-group-h::after{content:"";position:absolute;left:0;bottom:-1px;width:38px;height:2px;background:var(--accent);opacity:.7}
+.ks-group-h .n{font-family:var(--mono);font-size:9.5px;color:var(--faint);font-weight:400;margin-left:auto}
+.ks-item{background:var(--surface);border:1px solid var(--line);border-left:2px solid var(--line-mid);margin-top:9px;padding:13px 16px;box-shadow:var(--shadow);transition:border-color .2s, box-shadow .2s}
+.ks-item:hover{border-left-color:var(--accent);box-shadow:var(--shadow-hover)}
 .ks-item h3{margin:0 0 7px;font-family:var(--serif);font-size:15.5px;font-weight:700}
 .ks-item p{margin:0 0 7px;font-family:var(--serif);font-size:15.5px;line-height:1.95;text-align:justify;color:#22242a}
 .ks-item p:last-child{margin-bottom:0}
@@ -467,7 +493,7 @@ tr.linkable:hover td.name{background:var(--red-soft)}
     </div>
     <p class="tbl-note" style="margin-top:12px">
       曲艺押题讲义的选择题预测部分。标红的词是选项里的「关键词」——选择题就是认这些词。
-      已录入 马原 / 毛中特 / 新思想 / 史纲 / 思修，共 94 条；待补：毛中特后三节、思修余下、时政。
+      五科已全部录完，时政正在补（第 12–17 页）；共 113 条，约 1.4 万字。
     </p>
     <div class="ks-filterbar">
       <div class="filters" id="ksFilters"></div>
@@ -1323,6 +1349,69 @@ const KS = [
       ]}
     ]
   }
+,
+  {
+    key:"mzt2", subject:"毛中特", sub:"",
+    groups:[
+      { t:"（四）初步探索的理论成果", items:[
+        { h:"《关于正确处理人民内部矛盾的问题》（1957）", p:[
+          "一是论述了社会主义社会的<em class=\"k\">基本矛盾</em>是在生产关系和生产力基本适应、上层建筑和经济基础基本适应条件下的矛盾，是在人民根本利益一致基础上的矛盾，是<em class=\"k\">非对抗性</em>的矛盾。",
+          "二是论述了正确处理两类不同性质社会矛盾的基本方法：解决敌我之间和人民内部这两类不同性质的矛盾，要分别采用<em class=\"k\">专政和民主</em>两种不同的方法。所谓民主方法，就是讨论的方法、批评的方法、说服教育的方法。",
+          "三是指出用民主的方法解决人民内部矛盾，这是一个<em class=\"k\">总方针</em>；四是强调关于正确处理人民内部矛盾的问题是社会主义国家<em class=\"k\">政治生活的主题</em>。"
+        ]},
+        { h:"人民内部矛盾的具体方针原则", p:[
+          "①政治思想领域：实行“<em class=\"k\">团结—批评—团结</em>”的方针，坚持说服教育、讨论的方法；②物质利益、分配方面：实行<em class=\"k\">统筹兼顾、适当安排</em>，兼顾国家、集体和个人三方面利益；③人民群众和政府机关的矛盾：坚持<em class=\"k\">民主集中制</em>原则；",
+          "④科学文化领域：实行“<em class=\"k\">百花齐放、百家争鸣</em>”的方针；⑤共产党和民主党派之间：在坚持社会主义道路和共产党领导的前提下“<em class=\"k\">长期共存、互相监督</em>”；⑥民族之间：实行民族平等、团结互助的方针。"
+        ]}
+      ]},
+      { t:"（五）邓小平理论", items:[
+        { h:"社会主义市场经济理论要点", p:[
+          "一是计划经济和市场经济不是划分社会制度的标志，<em class=\"k\">计划经济不等于社会主义，市场经济也不等于资本主义</em>；",
+          "二是计划和市场都是<em class=\"k\">经济手段</em>，对经济活动的调节各有优势和长处，社会主义实行市场经济要把二者结合起来；",
+          "三是市场经济作为资源配置的一种方式<em class=\"k\">本身不具有制度属性</em>，可以和不同的社会制度结合，从而表现出不同的性质。"
+        ]},
+        { h:"历史性的大转折", p:[
+          "①<em class=\"k\">真理标准大讨论</em>：实质在于是不是坚持马列主义、毛泽东思想，成为拨乱反正和改革开放的思想先导。",
+          "②《解放思想，实事求是，团结一致向前看》的重要讲话：把解放思想、实事求是、坚持实践标准提到党的思想路线的高度，为冲破“两个凡是”禁锢、克服思想僵化状态、重新确立党的思想路线奠定了基础，成为<em class=\"k\">开辟中国特色社会主义新道路、开创中国特色社会主义新理论的宣言书</em>。",
+          "③<em class=\"k\">中共十一届三中全会</em>：彻底否定了“两个凡是”的错误方针，高度评价了关于真理标准问题的讨论，断然否定“以阶级斗争为纲”的指导思想，作出把工作重点转移到社会主义现代化建设上来和实行改革开放的战略决策，重新确立了马克思主义的思想路线、政治路线和组织路线。"
+        ]}
+      ]}
+    ]
+  }
+,
+  {
+    key:"sx2", subject:"思修", sub:"",
+    groups:[
+      { t:"（四）道德的本质与功能", items:[
+        { h:"道德的本质", p:["道德是反映社会经济关系的特殊意识形态。道德的产生、发展和变化，<em class=\"k\">归根结底根源于社会经济关系</em>。作为社会意识的道德一经产生，便有相对独立性——表现为道德的历史继承性，也表现为道德对社会发展具有能动的反作用。"]},
+        { h:"道德的功能", p:["<em class=\"k\">认识功能、规范功能、调节功能</em>是最基本的功能，此外还有导向功能、激励功能等。道德评价是道德调节的<em class=\"k\">主要形式</em>。"]}
+      ]},
+      { t:"（五）法律权利与法律义务", items:[
+        { h:"我国社会主义法律的本质特征", p:["①体现了党的主张和人民意志的统一；②具有科学性和先进性；③是中国特色社会主义建设的重要保障。"]},
+        { h:"法律权利的特征", p:["①内容、种类和实现程度受社会物质生活条件的制约；②内容、分配和实现方式因社会制度和国家法律的不同而存在差异；③不仅由法律规定或认可，而且受法律维护和保障，具有<em class=\"k\">不可侵犯性</em>；④必须依法行使。法律权利区别于其他权利的根本所在是<em class=\"k\">由国家强制力保障其实现</em>。"]},
+        { h:"权利与义务的关系", p:["①<em class=\"k\">辩证统一</em>：不可分割且相互依存，权利的实现必须以相应义务的履行为条件，义务的设定和履行也必须以权利的行使为根据。②<em class=\"k\">一律平等</em>：在具体设定上要平等，实现要体现平等。③<em class=\"k\">互利互赢</em>：一个人无论是行使权利还是履行义务，实际上都是对自己有利的。"]},
+        { h:"公平正义", p:["主要包括<em class=\"k\">权利公平、机会公平、规则公平和救济公平</em>。","权利公平包括三重含义：权利主体平等；享有的权利特别是基本权利平等；权利保护和权利救济平等。","机会公平：积极为社会发展创造条件，努力创造平等的起点；公民发展进步权受同等尊重；关注当代人平等机会，也考虑后代人的机会平等。","规则公平：法律规则面前人人平等、法律内容面前人人平等和法律保护面前人人平等。","救济公平：包括司法救济公平、行政救济公平、社会救济公平。"]},
+        { h:"宪法规定的基本权利", p:["①政治权利：选举权、表达权（具有<em class=\"k\">基础性作用</em>）、民主管理权、监督权；②人身权利：生命健康权、人身自由权、人格尊严权（姓名权、肖像权、名誉权、荣誉权、隐私权等）、住宅安全权、通信自由权；③财产权：私有财产权、继承权；④社会经济权利：劳动权、休息权、社会保障权、物质帮助权；⑤宗教信仰自由；⑥文化教育权利。"]},
+        { h:"行使法律权利的界限", p:["①权利行使目的<em class=\"k\">正当性</em>：形式上符合法律规定，也符合立法意图和精神，不得破坏公序良俗；②权利行使的<em class=\"k\">必要限度</em>：必须按照法律规定的限度来行使；③权利行使方式的<em class=\"k\">法定性</em>；④权利行使的<em class=\"k\">正当程序</em>：通常情况下由法律规定。"]}
+      ]}
+    ]
+  },
+  {
+    key:"sz", subject:"时政", sub:"形势与政策 · 当代世界经济与政治",
+    groups:[
+      { t:"（一）五年规划的制度定位与经验", items:[
+        { h:"制度定位与四大优势", p:["制定和实施五年规划是我们党治国理政一条重要经验，是中国特色社会主义制度一个重要政治优势。①有利于实现党的领导；②有利于集中力量办大事；③有利于前瞻性把握战略问题；④有利于保持事业连续性。"]},
+        { h:"五大宝贵经验", p:["①坚持党中央集中统一领导（<em class=\"k\">首要原则和根本保证</em>）；②坚持从实际出发；③坚持全国一盘棋；④坚持发扬民主、集思广益；⑤坚持规划法定原则。"]},
+        { h:"“十五五”规划编制三大基本原则", p:["坚持<em class=\"k\">科学决策、民主决策、依法决策</em>。"]}
+      ]},
+      { t:"（二）《树立和践行正确政绩观》", items:[
+        { h:"总体定位", p:["政绩观问题是一个根本性问题，事关<em class=\"k\">立党为公、执政为民</em>。"]},
+        { h:"决定性因素", p:["树立和践行正确政绩观的决定性因素是<em class=\"k\">党性</em>。衡量党性强的根本尺子是<em class=\"k\">公、私二字</em>。"]},
+        { h:"“四个有没有”标尺", p:["①有没有偏离共产主义远大理想和中国特色社会主义共同理想；②有没有背离全心全意为人民服务的根本宗旨；③有没有游离党的路线方针政策和党中央重大决策部署；④有没有脱离国情和本地区本部门实际。"]},
+        { h:"与高质量发展的关系", p:["高质量发展是全面建设社会主义现代化国家的<em class=\"k\">首要任务</em>，坚持高质量发展要成为领导干部政绩观的重要内容。"]}
+      ]}
+    ]
+  }
 ];
 
 /* ================= 状态 ================= */
@@ -1356,15 +1445,21 @@ function save(){
 
 /* ================= 渲染：选择题考点 ================= */
 let ksFilter = "全部";
+const ACC = {"马原":"mayuan","毛中特":"maozhongte","新思想":"xinsixiang","史纲":"shigang","思修":"sixiu","时政":"dangdai"};
+
+function ksMerged(){
+  const order = [], map = new Map();
+  KS.forEach(b => {
+    let e = map.get(b.subject);
+    if (!e){ e = { subject: b.subject, sub: '', groups: [] }; map.set(b.subject, e); order.push(e); }
+    if (!e.sub && b.sub) e.sub = b.sub;
+    e.groups.push(...b.groups);
+  });
+  return order;
+}
 
 function ksSubjects(){
-  const subs = [];
-  KS.forEach(b => {
-    const n = b.groups.reduce((a, g) => a + g.items.length, 0);
-    const hit = subs.find(s => s.name === b.subject);
-    if (hit) hit.count += n; else subs.push({ name: b.subject, count: n });
-  });
-  return subs;
+  return ksMerged().map(b => ({ name: b.subject, count: b.groups.reduce((a, g) => a + g.items.length, 0) }));
 }
 
 function renderKSFilter(){
@@ -1379,55 +1474,34 @@ function renderKSFilter(){
   bar.innerHTML = html;
 }
 
+function ksBlockHTML(block){
+  const acc = ACC[block.subject] || "mayuan";
+  let h = `<div class="ks-block" data-acc="${acc}"><div class="ks-subj" id="ks-${block.subject}">${block.subject}<small>${block.sub || ""}</small></div>`;
+  block.groups.forEach(g => {
+    h += `<div class="ks-group"><div class="ks-group-h"><span>${g.t}</span><span class="n">${g.items.length} 条</span></div>`;
+    g.items.forEach(it => {
+      h += `<div class="ks-item"><h3>${it.h}</h3>${it.p.map(x => `<p>${x}</p>`).join("")}</div>`;
+    });
+    h += `</div>`;
+  });
+  return h + `</div>`;
+}
+
 function renderKS(){
   const root = document.getElementById("ksRoot");
   if (!root) return;
   renderKSFilter();
-  let out = "", lastSub = "";
-  KS.forEach(block => {
-    if (block.subject !== lastSub){
-      out += `<div class="ks-subj" id="ks-${block.subject}">${block.subject}<small>${block.sub || ""}</small></div>`;
-      lastSub = block.subject;
-    }
-    block.groups.forEach(g => {
-      out += `<div class="ks-group"><div class="ks-group-h"><span>${g.t}</span><span class="n">${g.items.length} 条</span></div>`;
-      g.items.forEach(it => {
-        out += `<div class="ks-item"><h3>${it.h}</h3>${it.p.map(x => `<p>${x}</p>`).join("")}</div>`;
-      });
-      out += `</div>`;
-    });
-  });
-  root.innerHTML = out;
+  root.innerHTML = ksMerged().map(ksBlockHTML).join("");
 }
 
 function setKsFilter(name){
   ksFilter = name;
   renderKSFilter();
-  if (name === "全部"){
-    renderKS();
-    window.scrollTo(0, 0);
-    return;
-  }
-  // 只渲染该科目
   const root = document.getElementById("ksRoot");
-  let out = "", lastSub = "";
-  KS.filter(b => b.subject === name).forEach(block => {
-    if (block.subject !== lastSub){
-      out += `<div class="ks-subj" id="ks-${block.subject}">${block.subject}<small>${block.sub || ""}</small></div>`;
-      lastSub = block.subject;
-    }
-    block.groups.forEach(g => {
-      out += `<div class="ks-group"><div class="ks-group-h"><span>${g.t}</span><span class="n">${g.items.length} 条</span></div>`;
-      g.items.forEach(it => {
-        out += `<div class="ks-item"><h3>${it.h}</h3>${it.p.map(x => `<p>${x}</p>`).join("")}</div>`;
-      });
-      out += `</div>`;
-    });
-  });
-  root.innerHTML = out;
+  if (!root) return;
+  root.innerHTML = ksMerged().filter(b => name === "全部" || b.subject === name).map(ksBlockHTML).join("");
   window.scrollTo(0, 0);
 }
-
 /* ================= 渲染：卡片 ================= */
 function bodyHTML(card){
   const html = card.paras.map(p => `<p>${p}</p>`).join("");
@@ -1456,7 +1530,7 @@ function renderCards(){
   SECTIONS.forEach(sec => {
     if (state.filter !== "all" && sec.key !== state.filter) return;
     si++;
-    out += `<section class="sec" id="sec-${si}">
+    out += `<section class="sec" id="sec-${si}" data-acc="${sec.key === "zhang-mayuan" ? "zhang" : sec.key.replace("quyi-","")}">
       <div class="sec-head">
         <span class="sec-idx">${sec.idx}</span>
         <span class="sec-title">${sec.name}</span>
@@ -1794,6 +1868,11 @@ if (toTop){
 }
 
 const readbar = document.getElementById("readbar");
+const liftEls = [...document.querySelectorAll(".appbar,.toolbar,.ks-filterbar")];
+window.addEventListener("scroll", () => {
+  const on = window.scrollY > 8;
+  liftEls.forEach(el => el.classList.toggle("lift", on));
+}, { passive: true });
 if (readbar){
   const draw = () => {
     const doc = document.documentElement;
